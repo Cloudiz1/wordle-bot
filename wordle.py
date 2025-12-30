@@ -1,5 +1,5 @@
-import random
 import enum
+import random
 
 class State(enum.Enum):
     Green = 1

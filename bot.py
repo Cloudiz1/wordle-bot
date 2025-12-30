@@ -1,5 +1,4 @@
 import wordle
-game = wordle.Game()
 
 def new_counter():
     return {
@@ -33,7 +32,8 @@ def new_counter():
 
 class Bot:
     def __init__(self):
-        self.all_guesses = game.wordle_words
+        self.game = wordle.Game()
+        self.all_guesses = self.game.wordle_words
         self.states = []
         self.frequencies = []
 
@@ -103,11 +103,38 @@ class Bot:
     def solve(self):
         guess = ""
 
-        while guess is not game.answer:
+        while guess is not self.game.answer and len(self.states) <= 5:
             guess = self.get_best()
-            state = game.get_state(guess)
-            game.print_state(state)
+            state = self.game.get_state(guess)
+            self.game.print_state(state)
             self.states.append(state)
             self.remove_invalid()
+            
+        if guess == self.game.answer:
+            return (True, len(self.states))
+        else:
+            return False, 0
+
+# games = {
+#     1: 0,
+#     2: 0,
+#     3: 0,
+#     4: 0,
+#     5: 0,
+#     6: 0,
+#     "loss": 0,
+# }
+
+# for i in range(1000):
+#     if i % 100 == 0:
+#         print(i)
+        
+#     (win, moves) = Bot().solve()
+#     if win:
+#         games[moves] += 1
+#     else:
+#         games["loss"] += 1
+        
+# print(games)
 
 Bot().solve()

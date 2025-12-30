@@ -56,8 +56,8 @@ class Bot:
             if c != word[i]:
                 return False
 
-        for c in yellows:
-            if c not in word:
+        for c, i in yellows:
+            if c not in word or c == word[i]:
                 return False
 
         for c in greys:
@@ -76,7 +76,7 @@ class Bot:
                 if state[1] == wordle.State.Green:
                     greens.add((state[0], i))
                 elif state[1] == wordle.State.Yellow:
-                    yellows.add(state[0])
+                    yellows.add((state[0], i))
                 else:
                     greys.add(state[0])
 
